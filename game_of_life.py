@@ -1,6 +1,6 @@
 import pygame, sys
 
-ROW_SIZE, COL_SIZE = (100,100) #size of the grid
+ROW_SIZE, COL_SIZE = (50,50) #size of the grid
 pygame.init()
 win = pygame.display.set_mode((ROW_SIZE * 10-5, COL_SIZE * 10-5))
 pygame.display.set_caption("game of life")
@@ -54,7 +54,7 @@ while  True:
     generation_life += dt
 
     if pause_loop == True:
-        if generation_life > 100:
+        if generation_life > 100: #lifespan of each generation
 
             grid = life(grid)
             draw(grid)
