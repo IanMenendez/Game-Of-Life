@@ -1,13 +1,13 @@
 import pygame, sys
 
-grid_size = 70 #multiples of 10 only
+ROW_SIZE, COL_SIZE = (100,100) #size of the grid
 pygame.init()
-win = pygame.display.set_mode((grid_size * 10-5, grid_size * 10-5))
+win = pygame.display.set_mode((ROW_SIZE * 10-5, COL_SIZE * 10-5))
 pygame.display.set_caption("game of life")
 
-grid = [[0 for _ in range(grid_size)] for _ in range(grid_size)]
+grid = [[0 for _ in range(ROW_SIZE)] for _ in range(COL_SIZE)]
 
-def draw(grid): #draws live and dead "cells". white means alive
+def draw(grid): #white == alive, black == dead
     for i in range(len(grid)):
         for j in range(len(grid[0])):
             if grid[i][j] == 0:
@@ -25,11 +25,11 @@ def check_neigh(row, col, grid):
                 totalNeigh += grid[(row + j) % len(grid)][(col + i) % len(grid[0])]
     return totalNeigh
 
-def life(old_grid): #creates the new generation based on the neighbours of each cell
-    new_grid = [[0 for _ in range(grid_size)] for _ in range(grid_size)]
+def life(old_grid): #creates the new generation
+    new_grid = [[0 for _ in range(ROW_SIZE)] for _ in range(COL_SIZE)]
 
-    for i in range(len(old_grid[0])):
-        for j in range(len(old_grid)):
+    for i in range(len(old_grid)):
+        for j in range(len(old_grid[0])):
             neighnum = check_neigh(i, j, old_grid)
 
             if old_grid[i][j] == 0:
@@ -47,19 +47,17 @@ def life(old_grid): #creates the new generation based on the neighbours of each 
 
 generation_life = 0
 clock = pygame.time.Clock()
-start_loop = False
-
+pause_loop = False
 
 while  True:
     dt = clock.tick()
     generation_life += dt
 
-    if start_loop == True:
+    if pause_loop == True:
         if generation_life > 100:
 
             grid = life(grid)
             draw(grid)
-
             generation_life = 0
 
     for event in pygame.event.get():
@@ -77,7 +75,7 @@ while  True:
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                start_loop = not start_loop
+                pause_loop = not pause_loop
 
         if event.type == pygame.QUIT:
             pygame.quit()
