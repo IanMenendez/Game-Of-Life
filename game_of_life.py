@@ -1,11 +1,9 @@
 import pygame, sys
 
-ROW_SIZE, COL_SIZE = (50,50) #size of the grid
+COL_SIZE, ROW_SIZE = (50,50) #size of the grid
 pygame.init()
-win = pygame.display.set_mode((ROW_SIZE * 10-5, COL_SIZE * 10-5))
+win = pygame.display.set_mode((COL_SIZE * 10-5, ROW_SIZE * 10-5))
 pygame.display.set_caption("game of life")
-
-grid = [[0 for _ in range(ROW_SIZE)] for _ in range(COL_SIZE)]
 
 def draw(grid): #white == alive, black == dead
     for i in range(len(grid)):
@@ -26,7 +24,7 @@ def check_neigh(row, col, grid):
     return totalNeigh
 
 def life(old_grid): #creates the new generation
-    new_grid = [[0 for _ in range(ROW_SIZE)] for _ in range(COL_SIZE)]
+    new_grid = [[0 for _ in range(COL_SIZE)] for _ in range(ROW_SIZE)]
 
     for i in range(len(old_grid)):
         for j in range(len(old_grid[0])):
@@ -49,19 +47,19 @@ generation_life = 0
 clock = pygame.time.Clock()
 pause_loop = False
 
+grid = [[0 for _ in range(COL_SIZE)] for _ in range(ROW_SIZE)]
+
 while  True:
     dt = clock.tick()
     generation_life += dt
 
     if pause_loop == True:
         if generation_life > 100: #lifespan of each generation
-
             grid = life(grid)
             draw(grid)
             generation_life = 0
 
     for event in pygame.event.get():
-
         mpos = list(pygame.mouse.get_pos())
         mpos[0] = round(mpos[0], -1); mpos[1] = round(mpos[1], -1)
 
