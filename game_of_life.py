@@ -2,7 +2,7 @@ import pygame, sys
 
 COL_SIZE, ROW_SIZE = (50,50) #size of the grid
 pygame.init()
-win = pygame.display.set_mode((COL_SIZE * 10-5, ROW_SIZE * 10-5))
+win = pygame.display.set_mode((COL_SIZE * 10, ROW_SIZE * 10))
 pygame.display.set_caption("game of life")
 
 def draw(grid): #white == alive, black == dead
@@ -63,13 +63,16 @@ while  True:
         mpos = list(pygame.mouse.get_pos())
         mpos[0] = round(mpos[0], -1); mpos[1] = round(mpos[1], -1)
 
-        if pygame.mouse.get_pressed()[0]:
-            pygame.draw.rect(win, (255, 255, 255), (mpos[0], mpos[1], 10, 10))
-            grid[mpos[1]//10][mpos[0]//10] = 1
+        try:
+            if pygame.mouse.get_pressed()[0]:
+                pygame.draw.rect(win, (255, 255, 255), (mpos[0], mpos[1], 10, 10))
+                grid[mpos[1]//10][mpos[0]//10] = 1
 
-        if pygame.mouse.get_pressed()[2]:
-            pygame.draw.rect(win, (0, 0, 0), (mpos[0], mpos[1], 10, 10))
-            grid[mpos[1] // 10][mpos[0] // 10] = 0
+            if pygame.mouse.get_pressed()[2]:
+                pygame.draw.rect(win, (0, 0, 0), (mpos[0], mpos[1], 10, 10))
+                grid[mpos[1] // 10][mpos[0] // 10] = 0
+        except IndexError:
+            pass
 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
