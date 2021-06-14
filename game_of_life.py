@@ -1,6 +1,6 @@
 import pygame, sys
 
-class Game():
+class Game:
     def __init__(self,cols, rows):
         self.grid = [[0 for _ in range(cols)] for _ in range(rows)]
 
